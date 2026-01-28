@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Key System</title>
+</head>
+<body style="background:black;color:white;display:flex;align-items:center;justify-content:center;height:100vh;font-family:Arial">
+
+<div style="background:#111;padding:30px;border-radius:10px;text-align:center">
+    <h2>Your Key</h2>
+    <p id="key">Loading...</p>
+    <button onclick="copyKey()">Copy Key</button>
+</div>
+
+<script>
+const params = new URLSearchParams(window.location.search);
+const key = params.get("key");
+
+document.getElementById("key").innerText = key ?? "Key bulunamadı";
+
+function copyKey(){
+    navigator.clipboard.writeText(key);
+    alert("Key kopyalandı!");
+}
+</script>
+
+</body>
+</html>
