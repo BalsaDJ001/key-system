@@ -5,21 +5,16 @@
 <title>Balsa Key System</title>
 <style>
 body {
-    background: #0f0f0f;
-    color: white;
-    font-family: Arial;
-    text-align: center;
-    margin-top: 80px;
-}
-button {
-    padding: 15px 30px;
-    font-size: 18px;
-    cursor: pointer;
+    background:#0f0f0f;
+    color:white;
+    font-family:Arial;
+    text-align:center;
+    margin-top:80px;
 }
 input {
-    padding: 10px;
-    width: 300px;
-    margin-top: 20px;
+    padding:12px;
+    width:380px;
+    font-size:16px;
 }
 </style>
 </head>
@@ -27,24 +22,36 @@ input {
 <body>
 
 <h1>🔑 Balsa Key System</h1>
-<p>Reklamdan geldikten sonra key al</p>
-
-<button onclick="generateKey()">GET KEY</button>
-
-<br><br>
+<p id="status">Kontrol ediliyor...</p>
 
 <input id="keyBox" readonly placeholder="Key burada görünecek">
 
 <script>
-function generateKey() {
-    const key = crypto.randomUUID();
-    const data = {
-        key: key,
-        time: Date.now()
+const params = new URLSearchParams(window.location.search);
+const cameFromAds = params.get("from") === "lv";
+
+// Aynı oturumda tekrar key verilmesini engelle
+if (sessionStorage.getItem("key_used")) {
+    document.getElementById("status").innerText =
+        "❌ Tekrar key almak için reklamdan tekrar geçmelisin.";
+} 
+else if (cameFromAds) {
+    const now = Date.now();
+    const payload = {
+        t: now,
+        r: crypto.randomUUID()
     };
 
-    localStorage.setItem("balsa_key", JSON.stringify(data));
+    const key = btoa(JSON.stringify(payload));
     document.getElementById("keyBox").value = key;
+    document.getElementById("status").innerText =
+        "✅ Key oluşturuldu. Roblox’a geri dön.";
+
+    sessionStorage.setItem("key_used", "1");
+} 
+else {
+    document.getElementById("status").innerText =
+        "❌ Key almak için reklam linkinden gelmelisin.";
 }
 </script>
 
