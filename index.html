@@ -5,36 +5,58 @@
 <title>Key System</title>
 <style>
 body {
-  background:#0f0f0f;
+  font-family: Arial;
+  background:#111;
   color:#fff;
-  font-family:Arial;
   display:flex;
   justify-content:center;
   align-items:center;
   height:100vh;
 }
+.box {
+  background:#1e1e1e;
+  padding:30px;
+  border-radius:12px;
+  text-align:center;
+}
 button {
-  padding:15px 30px;
-  font-size:18px;
+  padding:12px 20px;
+  font-size:16px;
   cursor:pointer;
+}
+pre {
+  background:#000;
+  padding:10px;
+  border-radius:6px;
+  word-break:break-all;
 }
 </style>
 </head>
 <body>
 
-<button onclick="generateKey()">KEY OLUŞTUR</button>
+<div class="box">
+  <h2>🔑 Key System</h2>
+  <button onclick="getKey()">Get Key</button>
+  <pre id="key" style="display:none;"></pre>
+</div>
 
 <script>
+const SIX_HOURS = 6 * 60 * 60 * 1000;
+
 function generateKey() {
   const data = {
     t: Date.now(),
-    id: crypto.randomUUID()
+    r: Math.random().toString(36).slice(2)
   };
+  return btoa(JSON.stringify(data));
+}
 
-  const encoded = btoa(JSON.stringify(data));
-  navigator.clipboard.writeText(encoded);
-
-  alert("Key kopyalandı!\nOyuna dön ve yapıştır.");
+function getKey() {
+  const key = generateKey();
+  localStorage.setItem("key", key);
+  localStorage.setItem("keyTime", Date.now());
+  document.getElementById("key").innerText = key;
+  document.getElementById("key").style.display = "block";
 }
 </script>
 
