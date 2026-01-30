@@ -1,64 +1,459 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="UTF-8">
-<title>Key System</title>
-<style>
-body {
-  font-family: Arial;
-  background:#111;
-  color:#fff;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  height:100vh;
-}
-.box {
-  background:#1e1e1e;
-  padding:30px;
-  border-radius:12px;
-  text-align:center;
-}
-button {
-  padding:12px 20px;
-  font-size:16px;
-  cursor:pointer;
-}
-pre {
-  background:#000;
-  padding:10px;
-  border-radius:6px;
-  word-break:break-all;
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Key System - BalsaDJ (Advanced)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo h1 {
+            color: #667eea;
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .logo p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .hwid-info {
+            background: #e3f2fd;
+            border-left: 4px solid #2196F3;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .hwid-info p {
+            color: #555;
+            font-size: 12px;
+            line-height: 1.6;
+            font-family: 'Courier New', monospace;
+        }
+
+        .key-box {
+            background: #f8f9fa;
+            border: 2px dashed #667eea;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .key-display {
+            font-family: 'Courier New', monospace;
+            font-size: 18px;
+            color: #667eea;
+            font-weight: bold;
+            word-break: break-all;
+            margin: 10px 0;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin: 10px 0;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-success {
+            background: #28a745;
+            color: white;
+            display: none;
+        }
+
+        .btn-success:hover {
+            background: #218838;
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .info {
+            background: #e7f3ff;
+            border-left: 4px solid #2196F3;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .info p {
+            color: #555;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .steps {
+            margin: 20px 0;
+        }
+
+        .step {
+            display: flex;
+            align-items: center;
+            margin: 15px 0;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .step-number {
+            width: 30px;
+            height: 30px;
+            background: #667eea;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+
+        .step-text {
+            color: #555;
+            font-size: 14px;
+        }
+
+        .success-message {
+            display: none;
+            background: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .error-message {
+            display: none;
+            background: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .loading::after {
+            content: '...';
+            animation: dots 1.5s steps(4, end) infinite;
+        }
+
+        @keyframes dots {
+            0%, 20% { content: '.'; }
+            40% { content: '..'; }
+            60%, 100% { content: '...'; }
+        }
+    </style>
 </head>
 <body>
+    <div class="container">
+        <div class="logo">
+            <h1>🔑 Key System</h1>
+            <p>Made by BalsaDJ</p>
+        </div>
 
-<div class="box">
-  <h2>🔑 Key System</h2>
-  <button onclick="getKey()">Get Key</button>
-  <pre id="key" style="display:none;"></pre>
-</div>
+        <div class="steps">
+            <div class="step">
+                <div class="step-number">1</div>
+                <div class="step-text">Get Key butonuna tıkla</div>
+            </div>
+            <div class="step">
+                <div class="step-number">2</div>
+                <div class="step-text">Linkvertise'den reklamları izle ve geç</div>
+            </div>
+            <div class="step">
+                <div class="step-number">3</div>
+                <div class="step-text">Otomatik olarak key alacaksın</div>
+            </div>
+            <div class="step">
+                <div class="step-number">4</div>
+                <div class="step-text">Key'i kopyala ve scripte yapıştır</div>
+            </div>
+        </div>
 
-<script>
-const SIX_HOURS = 6 * 60 * 60 * 1000;
+        <div class="info">
+            <p><strong>ℹ️ Bilgi:</strong> Key'iniz 6 saat boyunca geçerlidir. Her cihaz için farklı key almanız gerekir.</p>
+        </div>
 
-function generateKey() {
-  const data = {
-    t: Date.now(),
-    r: Math.random().toString(36).slice(2)
-  };
-  return btoa(JSON.stringify(data));
-}
+        <button class="btn btn-primary" id="getKeyBtn" onclick="startKeyProcess()">
+            🔗 Get Key (Linkvertise)
+        </button>
 
-function getKey() {
-  const key = generateKey();
-  localStorage.setItem("key", key);
-  localStorage.setItem("keyTime", Date.now());
-  document.getElementById("key").innerText = key;
-  document.getElementById("key").style.display = "block";
-}
-</script>
+        <div class="loading" id="loading">
+            Key oluşturuluyor
+        </div>
 
+        <div class="key-box">
+            <p style="color: #666; margin-bottom: 10px;">Key'iniz:</p>
+            <div class="key-display" id="keyDisplay"></div>
+        </div>
+
+        <button class="btn btn-success" id="copyKeyBtn" onclick="copyKey()">
+            📋 Copy Key
+        </button>
+
+        <div class="success-message" id="successMsg">
+            ✅ Key başarıyla kopyalandı! Şimdi Roblox'a dönün ve key'i yapıştırın.
+        </div>
+
+        <div class="error-message" id="errorMsg">
+            ❌ Bir hata oluştu. Lütfen tekrar deneyin.
+        </div>
+
+        <!-- HWID bilgisi (geliştirme amaçlı, production'da gizli tutulabilir) -->
+        <div class="hwid-info" id="hwidInfo" style="display: none;">
+            <p><strong>Debug Info:</strong></p>
+            <p id="hwidDisplay"></p>
+        </div>
+    </div>
+
+    <script>
+        // ============================================
+        // BURAYA KENDİ BİLGİLERİNİZİ YAZIN
+        // ============================================
+        const LINKVERTISE_USER_ID = "3113874"; // Linkvertise User ID
+        const BYPASS_URL = window.location.origin + window.location.pathname; // Geri dönüş URL'i
+        
+        let currentHWID = null;
+
+        // Basit HWID oluştur (browser fingerprint)
+        function generateHWID() {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            ctx.textBaseline = 'top';
+            ctx.font = '14px Arial';
+            ctx.fillText('hwid', 2, 2);
+            
+            const screen = `${window.screen.width}x${window.screen.height}x${window.screen.colorDepth}`;
+            const navigator_info = navigator.userAgent + navigator.language + screen;
+            const canvas_hash = canvas.toDataURL();
+            
+            const combined = navigator_info + canvas_hash;
+            
+            // Simple hash function
+            let hash = 0;
+            for (let i = 0; i < combined.length; i++) {
+                const char = combined.charCodeAt(i);
+                hash = ((hash << 5) - hash) + char;
+                hash = hash & hash;
+            }
+            
+            return Math.abs(hash).toString(16);
+        }
+
+        function generateKey(hwid) {
+            const timestamp = Date.now();
+            const randomStr = Math.random().toString(36).substring(2, 15);
+            const data = {
+                t: timestamp,
+                r: randomStr,
+                h: hwid // Hardware ID
+            };
+            const encoded = btoa(JSON.stringify(data));
+            return encoded;
+        }
+
+        function showLoading() {
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('getKeyBtn').disabled = true;
+        }
+
+        function hideLoading() {
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('getKeyBtn').disabled = false;
+        }
+
+        function startKeyProcess() {
+            // HWID oluştur
+            currentHWID = generateHWID();
+            
+            // Debug için HWID göster
+            document.getElementById('hwidDisplay').textContent = `HWID: ${currentHWID}`;
+            
+            showLoading();
+            
+            // Key oluştur
+            const generatedKey = generateKey(currentHWID);
+            
+            // Key'i localStorage'a kaydet
+            localStorage.setItem('pendingKey', generatedKey);
+            localStorage.setItem('pendingKeyHWID', currentHWID);
+            localStorage.setItem('pendingKeyTime', Date.now().toString());
+            
+            // Linkvertise URL'i oluştur
+            // Dynamic link kullanarak callback yapalım
+            const targetUrl = `${BYPASS_URL}?key=${encodeURIComponent(generatedKey)}&hwid=${encodeURIComponent(currentHWID)}`;
+            const linkvertiseUrl = `https://link-center.net/${LINKVERTISE_USER_ID}/dynamic?r=${encodeURIComponent(targetUrl)}`;
+            
+            // Kullanıcıyı yönlendir
+            setTimeout(() => {
+                window.location.href = linkvertiseUrl;
+            }, 1000);
+        }
+
+        function showKey(key, hwid) {
+            // Key'i localStorage'a kaydet
+            localStorage.setItem('validKey', key);
+            localStorage.setItem('validKeyHWID', hwid);
+            localStorage.setItem('validKeyTime', Date.now().toString());
+            
+            // Pending key'leri temizle
+            localStorage.removeItem('pendingKey');
+            localStorage.removeItem('pendingKeyHWID');
+            localStorage.removeItem('pendingKeyTime');
+            
+            // Key'i göster
+            document.getElementById('keyDisplay').textContent = key;
+            document.getElementById('keyDisplay').style.display = 'block';
+            document.getElementById('copyKeyBtn').style.display = 'block';
+            document.getElementById('getKeyBtn').style.display = 'none';
+            
+            hideLoading();
+        }
+
+        function copyKey() {
+            const keyText = document.getElementById('keyDisplay').textContent;
+            
+            navigator.clipboard.writeText(keyText).then(() => {
+                document.getElementById('successMsg').style.display = 'block';
+                document.getElementById('copyKeyBtn').innerHTML = '✅ Kopyalandı!';
+                
+                setTimeout(() => {
+                    document.getElementById('successMsg').style.display = 'none';
+                    document.getElementById('copyKeyBtn').innerHTML = '📋 Copy Key';
+                }, 3000);
+            }).catch(err => {
+                // Fallback
+                const textArea = document.createElement('textarea');
+                textArea.value = keyText;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                
+                document.getElementById('successMsg').style.display = 'block';
+            });
+        }
+
+        function checkExistingKey() {
+            const savedKey = localStorage.getItem('validKey');
+            const savedHWID = localStorage.getItem('validKeyHWID');
+            const savedTime = localStorage.getItem('validKeyTime');
+            
+            if (savedKey && savedHWID && savedTime) {
+                const currentHWID = generateHWID();
+                const now = Date.now();
+                const keyAge = now - parseInt(savedTime);
+                const sixHours = 6 * 60 * 60 * 1000;
+                
+                // Aynı cihaz ve süre geçerli mi kontrol et
+                if (savedHWID === currentHWID && keyAge < sixHours) {
+                    showKey(savedKey, savedHWID);
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        // Sayfa yüklendiğinde
+        window.addEventListener('load', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const keyFromUrl = urlParams.get('key');
+            const hwidFromUrl = urlParams.get('hwid');
+            
+            if (keyFromUrl && hwidFromUrl) {
+                // Linkvertise'den başarıyla döndü
+                const currentHWID = generateHWID();
+                
+                // HWID eşleşiyor mu kontrol et
+                if (hwidFromUrl === currentHWID) {
+                    showKey(keyFromUrl, hwidFromUrl);
+                    
+                    // URL'i temizle
+                    window.history.replaceState({}, document.title, window.location.pathname);
+                } else {
+                    document.getElementById('errorMsg').textContent = '❌ Cihaz eşleşmiyor! Lütfen aynı cihazdan key alın.';
+                    document.getElementById('errorMsg').style.display = 'block';
+                }
+            } else {
+                // Mevcut key var mı kontrol et
+                checkExistingKey();
+            }
+            
+            // Pending key kontrolü (kullanıcı geri döndüyse)
+            const pendingKey = localStorage.getItem('pendingKey');
+            if (pendingKey && !keyFromUrl) {
+                const pendingTime = localStorage.getItem('pendingKeyTime');
+                const now = Date.now();
+                const elapsed = now - parseInt(pendingTime);
+                
+                // 5 dakikadan fazla beklediyse pending key'i sil
+                if (elapsed > 5 * 60 * 1000) {
+                    localStorage.removeItem('pendingKey');
+                    localStorage.removeItem('pendingKeyHWID');
+                    localStorage.removeItem('pendingKeyTime');
+                }
+            }
+        });
+    </script>
 </body>
 </html>
